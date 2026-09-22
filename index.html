@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1ST QUARTER PROJECT - SKU GENERATOR</title> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
+    <style>
+        :root {
+            --bg-dark:#0f172a;
+            --card-bg:#1e293b;
+            --accent-red:#ef4444;
+            --accent-yellow:#f59e0b;
+            --text-light: #f8fafc;
+        }
+ 
+        body {
+            background-color:#000000;
+            color: ghostwhite;
+            min-height: 100vh;
+            font-family: 'Oswald', 'Impact', sans-serif;         
+        }
+        .navbar {
+            background-color: #020617;
+            border-bottom: 1px solid #334155;
+        }
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .brand-jordan {color: var(--accent-red);}
+ 
+        .app-card {
+            background-color: #000000;
+            border: 1px solid #ef4444;
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.5), 0 8px 10px -6px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+        .app-card .card-header {
+            background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%);
+            border-bottom: 1px solid #334155;
+            padding: 2rem 1.5rem;
+        }
+        .from-label {
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #94a3b8;
+        }
+        .form-control, .form-select {
+        background-color: #ffffff;
+        border: 1px solid #ef4444;
+        color: #000000;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        }  
+        .form-control:focus, .form-select:focus {
+        background-color: #ffffff;
+        border-color: #ef4444;
+        color: #ef4444;
+        box-shadow: 0 0 0 0.25rem rgba(239,68,68, 0.25);
+        }
+        .btn-generate {
+            background-color: #ef4444;
+            color: whitesmoke;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 0.875rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-generate:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 15px -3px rgba(239, 68, 68, 0.4);
+            opacity: 0.95;
+            color: #fffafa;
+        }
+        .result-box {
+            background-color: #000000;
+            border: 2px dashed #ef4444;
+            padding: 1.5rem;
+            transition: all 0.3s ease;   
+        }
+        .sku-code {
+            font-family: 'Courier New', monospace;
+            font-weight:800;
+            font-size: 1.5rem;
+            color: #ef4444;
+            letter-spacing: 2px;
+        }
+        .form-label {
+            color: #ffffff !important;
+        }
+        .text-secondary {
+            color: #ffffff !important;
+        }
+        .result-box p {
+            color: #ffffff !important;
+        }
+        footer {
+            color : #ffffff !important;
+        }
+        </style>
+    </head>
+<body>
+ 
+     <nav class= "navbar navbar-expand-lg navbar-dark py-3">
+        <div class="container">
+<a class="navbar-brand d-flex align-items-center gap-2" href="index.html"> 
+    <i class="fa-solid fa-shoe-prints brand-jordan"></i> 
+    <span>SHOEZIFY</span> 
+</a>
+ 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active fw-semibold" href="index.html">
+                            <i class="fa-solid fa-cash-register me-1"></i> Order Terminal
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="receipt-generator.html">
+                            <i class="fa-solid fa-receipt me-1"></i> Receipt Generator
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+ 
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-7">
+                <div class="card app-card">
+ 
+                    <div class="card-header text-center">
+                        <div class="d-flex justify-content-center gap-3 mb-2">
+                            <i class="fa-solid fa-fire brand-jordan fa-2x"></i>
+                        </div>
+                        <h2 class="h4 mb-1 fw-bold text-white">Sneaker Inventory SKU Generator</h2>
+                        <p class="text-secondary small mb-0">Standardized SKU Generator for Air Jordans</p>
+                </div>
+ 
+                <div class="card-body p-4 p-md-5">
+                    <form id="sku-form">
+ 
+    <div class="mb-4">
+        <label for="category" class="form-label">
+        <i class="fa-solid fa-copyright me-1"></i> Air Jordan Model
+    </label>
+    <select id="category" class="form-select">
+        <option value="AJ">Air Jordans</option>
+    </select>
+</div>
+ 
+<div class="mb-4">
+     <label for="product_name" class="form-label">
+        <i class="fa-solid fa-box-archive me-1"></i> Shoe Model
+     </label>
+     <input type="text" id="product_name" class="form-control" placeholder="e.g. Retro 1 High OG, Air Jordan 4 Retro, Air Jordan 6 Retro, etc.">
+</div>
+ 
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <label for="shoe_size" class="form-label">
+            <i class="fa-solid fa-ruler-horizontal  me-1"></i> Size (US)    
+        </label>
+        <input type="number" id="shoe_size" class="form-control" placeholder="e.g. 9, 10.5,11, etc." min="0" max="12">
+    </div>
+ 
+    <div class="col-md-6 mb-4">
+        <label for="quantity" class="form-label">
+            <i class="fa-solid fa-warehouse me-1"></i> Stock Quantity
+        </label>
+        <input type="number" id="quantity" class="form-control" placeholder="e.g 1,2,5 pairs, etc." min="0">
+    </div>
+</div>
+ 
+<div class="d-grid mt-2">
+    <button type="button" onclick="generateSKU()" class="btn btn-generate text-white">
+        <i class="fa-solid fa-gears me-2"></i> Generate Sneaker SKU
+     </button>
+</div>
+</form>
+ 
+    <hr class="my-4 border secondary opacity-25">
+ 
+    <div id="sku_output" class="result-box text-center">
+        <p class="text-secondary mb-0">
+            <i class="fa-solid fa-terminal me-2"></i>Generated SKU output will display here.
+        </p>
+    </div>
+ 
+    </div>
+</div>
+</div>
+</div>
+</div> 
+ 
+<footer class="text-center text-secondary py-4 mt-auto">
+    <div class="container">
+        <p class="mb-0 small">
+        SHOEZIFY - 1ST QUARTER PROJECT
+        </p>
+    </div>
+</footer>
+ 
+<script>
+
+    function generateSKU() {
+        const category = document.getElementById('category').value;
+        const productName = document.getElementById('product_name').value.trim();
+        const sizeRaw = document.getElementById('shoe_size').value;
+        const qtyRaw = document.getElementById('quantity').value;
+ 
+        const output = document.getElementById('sku_output');
+ 
+    
+        if (!productName || !sizeRaw || !qtyRaw) {
+            output.innerHTML = `
+            <div class="alert alert-warning text-center mb-0">
+                <i class="fa-solid fa-triangle-exclamation me-1"></i>
+                Please fill in the shoe model, size, and quantity.
+            </div>`;
+            return;
+        }
+ 
+        let sizeVal = parseFloat(sizeRaw);
+        if (isNaN(sizeVal)) sizeVal = 0;
+ 
+        let qtyVal = parseInt(qtyRaw);
+        if (isNaN(qtyVal) || qtyVal < 0) qtyVal = 0;
+ 
+
+        const words = productName.toUpperCase().split(/\s+/).filter(Boolean);
+        let initials = words.map(w => w[0]).join('').slice(0, 4);
+        if (!initials) initials = 'GEN';
+ 
+
+        let sizeCode;
+        if (sizeVal % 1 === 0) {
+            sizeCode = String(Math.trunc(sizeVal)).padStart(2, '0');
+        } else {
+            sizeCode = String(Math.trunc(sizeVal)).padStart(2, '0') + 'H';
+        }
+ 
+
+        const now = new Date();
+        const yy = String(now.getFullYear()).slice(-2);
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const rand = String(Math.floor(Math.random() * 1000)).padStart(3, '0');
+        const uniqueCode = `${yy}${mm}${dd}${rand}`;
+ 
+        const sku = `${category}-${initials}-${sizeCode}-${String(qtyVal).padStart(2, '0')}-${uniqueCode}`;
+ 
+        output.innerHTML = `
+        <p class="text-secondary small mb-1">Generated SKU</p>
+        <div class="sku-code">${sku}</div>
+        <p class="text-secondary small mt-2 mb-0">
+            ${productName} &bull; Size US ${sizeRaw} &bull; Qty ${qtyVal}
+        </p>`;
+    }
+</script>
+ 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+ 
